@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Grace's Grievance Portal</title>
+  <style>
+    body {
+      font-family: 'Helvetica', sans-serif;
+      background: linear-gradient(to bottom right, #ffc6dc, #ffe8f0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: #fff0f7;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 20px;
+      background-color: hotpink;
+      border: none;
+      color: white;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="login-screen">
+  <h2>Grace's Grievance Portal 💌</h2>
+  <input type="text" id="username" placeholder="Username" />
+  <input type="password" id="password" placeholder="Password" />
+  <button onclick="login()">Login</button>
+</div>
+
+<div class="container hidden" id="form-screen">
+  <h2>Submit a Grievance 🌹</h2>
+  <form action="https://formspree.io/f/xyzwlenp" method="POST" onsubmit="return submitGrievance()">
+    <input type="text" name="title" id="title" placeholder="Title" required />
+    <textarea name="message" id="message" placeholder="What's bothering you?" required></textarea>
+    <select name="mood" id="mood">
+      <option>smh</option>
+      <option>WTFF</option>
+      <option>KMS</option>
+    </select>
+    <select name="severity" id="severity">
+      <option>A chunky KitKat would fix this 🍫</option>
+      <option>This requires immediate cuddles 🧸</option>
+      <option>You better reply in 30 seconds ⏰</option>
+    </select>
+    <button type="submit">Submit 💌</button>
+  </form>
+</div>
+
+<div class="container hidden" id="thankyou-screen">
+  <h2>Thank you, Grace 💖</h2>
+  <p>Your grievance has been sent to Eric 💌</p>
+  <p>He will get back to you very soon! (He will think about it)</p>
+  <button onclick="goBack()">Submit Another</button>
+</div>
+
+<script>
+  const correctUsername = "grace";
+  const correctPassword = "chicken1";
+
+  function login() {
+    const user = document.getElementById("username").value.toLowerCase();
+    const pass = document.getElementById("password").value;
+
+    if (user === correctUsername && pass === correctPassword) {
+      document.getElementById("login-screen").classList.add("hidden");
+      document.getElementById("form-screen").classList.remove("hidden");
+    } else {
+      alert("WRONG!!! TRY AGAIN!!");
+    }
+  }
+
+  function submitGrievance() {
+    const title = document.getElementById("title").value;
+    const message = document.getElementById("message").value;
+
+    if (!title || !message) {
+      alert("Please fill out the form.");
+      return false;
+    }
+
+    document.getElementById("form-screen").classList.add("hidden");
+    document.getElementById("thankyou-screen").classList.remove("hidden");
+
+    return true; // Allow form to submit
+  }
+
+  function goBack() {
+    document.getElementById("thankyou-screen").classList.add("hidden");
+    document.getElementById("form-screen").classList.remove("hidden");
+
+    document.getElementById("title").value = "";
+    document.getElementById("message").value = "";
+  }
+</script>
+
+</body>
+</html>
