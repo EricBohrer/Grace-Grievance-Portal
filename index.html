@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>Grace's Grievance Portal</title>
+  <title>Grace's 🦆 Grievance Portal 💌</title>
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -70,11 +70,11 @@
 </div>
 
 <div class="container hidden" id="form-screen">
-  <h2>Submit a Grievance 🌹</h2>
-  <form action="https://formspree.io/f/xyzwlenp" method="POST" target="hidden_iframe" onsubmit="return submitGrievance()">
+  <h2>Submit a Grievance 🌹🦆</h2>
+  <form id="grievanceForm">
     <input type="text" name="title" id="title" placeholder="Title" required />
     <textarea name="message" id="message" placeholder="What's bothering duck? 🤔" required></textarea>
-    
+
     <label for="mood">Mood</label>
     <select name="mood" id="mood">
       <option>😐</option>
@@ -90,7 +90,7 @@
       <option>SEVERE DUCKIE SEVERE</option>
     </select>
 
-    <button type="submit">Submit 💌</button>
+    <button type="submit">Submit 💌🦆</button>
   </form>
 </div>
 
@@ -98,7 +98,7 @@
   <h2>Thank you, Grace 🦆 💖</h2>
   <p>Your grievance has been sent to Eric B Johnson 🦧 💌</p>
   <p>He will get back to you very soon! (He will think about it)</p>
-  <button onclick="goBack()">Submit Another</button>
+  <button onclick="goBack()">Submit Another 🦆</button>
 </div>
 
 <script>
@@ -117,30 +117,50 @@
     }
   }
 
-  function submitGrievance() {
+  document.getElementById("grievanceForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
     const title = document.getElementById("title").value;
     const message = document.getElementById("message").value;
+    const mood = document.getElementById("mood").value;
+    const severity = document.getElementById("severity").value;
 
     if (!title || !message) {
       alert("Please fill out the form.");
-      return false;
+      return;
     }
 
-    document.getElementById("form-screen").classList.add("hidden");
-    document.getElementById("thankyou-screen").classList.remove("hidden");
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("message", message);
+    formData.append("mood", mood);
+    formData.append("severity", severity);
 
-    // Confetti trigger
-    const canvas = document.getElementById('confetti-canvas');
-    canvas.classList.remove('hidden');
-    confetti({
-      particleCount: 150,
-      spread: 100,
-      origin: { y: 0.6 }
+    fetch("https://formspree.io/f/xyzwlenp", {
+      method: "POST",
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(() => {
+      document.getElementById("form-screen").classList.add("hidden");
+      document.getElementById("thankyou-screen").classList.remove("hidden");
+
+      const canvas = document.getElementById('confetti-canvas');
+      canvas.classList.remove('hidden');
+      confetti({
+        particleCount: 150,
+        spread: 100,
+        origin: { y: 0.6 }
+      });
+      setTimeout(() => canvas.classList.add('hidden'), 3000);
+
+      document.getElementById("grievanceForm").reset();
+    }).catch(error => {
+      alert("Oops! Something went wrong. Try again later.");
+      console.error(error);
     });
-    setTimeout(() => canvas.classList.add('hidden'), 3000);
-
-    return true; // Allow form to submit
-  }
+  });
 
   function goBack() {
     document.getElementById("thankyou-screen").classList.add("hidden");
@@ -150,6 +170,6 @@
   }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<iframe name="hidden_iframe" style="display:none;"></iframe>
+
 </body>
 </html>
