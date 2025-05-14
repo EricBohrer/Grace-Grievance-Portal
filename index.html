@@ -71,7 +71,7 @@
 
 <div class="container hidden" id="form-screen">
   <h2>Submit a Grievance 🌹</h2>
-  <form action="https://formspree.io/f/xyzwlenp" method="POST" onsubmit="return submitGrievance()">
+  <form action="https://formspree.io/f/xyzwlenp" method="POST" target="hidden_iframe" onsubmit="return submitGrievance()">
     <input type="text" name="title" id="title" placeholder="Title" required />
     <textarea name="message" id="message" placeholder="What's bothering duck? 🤔" required></textarea>
     
@@ -150,6 +150,6 @@
   }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
+<iframe name="hidden_iframe" style="display:none;"></iframe>
 </body>
 </html>
